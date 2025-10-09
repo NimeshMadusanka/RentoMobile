@@ -1,10 +1,11 @@
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function HomeScreen() {
+export default function ProfileScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <Text style={styles.subtitle}>Welcome to the home screen</Text>
+      <Text style={styles.title}>Profile</Text>
+      <Text style={styles.subtitle}>Your account settings</Text>
     </View>
   );
 }

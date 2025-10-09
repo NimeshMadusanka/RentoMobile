@@ -1,10 +1,11 @@
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function HomeScreen() {
+export default function NotificationsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <Text style={styles.subtitle}>Welcome to the home screen</Text>
+      <Text style={styles.title}>Notifications</Text>
+      <Text style={styles.subtitle}>Stay updated with your bookings</Text>
     </View>
   );
 }
