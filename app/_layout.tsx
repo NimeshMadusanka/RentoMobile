@@ -37,6 +37,22 @@ export default function RootLayout() {
             headerShadowVisible: true,
           }}
         />
+        <Stack.Screen
+          name="privacy-policy"
+          options={{
+            title: "Privacy Policy",
+            headerStyle: {
+              backgroundColor: "#FFFFFF",
+            },
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#2C2C2C",
+            },
+            headerTintColor: "#2C2C2C",
+            headerShadowVisible: true,
+          }}
+        />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
