@@ -429,38 +429,43 @@ export default function RentalListing() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Rental Listing</Text>
-      </View>
-
-      <View style={styles.searchContainer}>
-        <View style={styles.searchBar}>
-          <Ionicons name="search" size={20} color="#4CAF50" />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search vehicle"
-            placeholderTextColor="#81C784"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
+      {/* Fixed white background area with header, search, and categories */}
+      <View style={styles.fixedHeaderArea}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Rental Listing</Text>
         </View>
+
+        <View style={styles.searchContainer}>
+          <View style={styles.searchBar}>
+            <Ionicons name="search" size={20} color="#4CAF50" />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search vehicle"
+              placeholderTextColor="#81C784"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+          </View>
+        </View>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.categoriesContainer}
+          contentContainerStyle={styles.categoriesContent}
+        >
+          {categories.map(renderCategoryButton)}
+        </ScrollView>
       </View>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.categoriesContainer}
-        contentContainerStyle={styles.categoriesContent}
-      >
-        {categories.map(renderCategoryButton)}
-      </ScrollView>
-
+      {/* Scrollable content area */}
       <FlatList
         data={filteredData}
         renderItem={renderRentalItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
+        style={styles.flatListContainer}
       />
     </SafeAreaView>
   );
@@ -471,9 +476,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5F5F5",
   },
+  fixedHeaderArea: {
+    backgroundColor: "#fff",
+    zIndex: 1,
+  },
   header: {
     flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: "#fff",
@@ -538,6 +547,9 @@ const styles = StyleSheet.create({
   },
   selectedCategoryButtonText: {
     color: "#fff",
+  },
+  flatListContainer: {
+    flex: 1,
   },
   listContainer: {
     padding: 20,

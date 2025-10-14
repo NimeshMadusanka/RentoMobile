@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 // Types
 interface Booking {
@@ -94,7 +87,7 @@ const BookingCard: React.FC<{ booking: Booking }> = ({ booking }) => {
           </View>
         </View>
       </View>
-      <View style={styles.buttonContainer}>
+      {/* <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.viewDetailsButton}>
           <Text style={styles.viewDetailsText}>View Details</Text>
         </TouchableOpacity>
@@ -103,7 +96,7 @@ const BookingCard: React.FC<{ booking: Booking }> = ({ booking }) => {
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
         )}
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -152,7 +145,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
@@ -201,8 +194,7 @@ const styles = StyleSheet.create({
   carImage: {
     width: "100%",
     height: 200,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    borderRadius: 12,
   },
   imageOverlay: {
     position: "absolute",
