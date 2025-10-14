@@ -22,15 +22,6 @@ export default function RootLayout() {
         <Stack.Screen name="splash" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
-          name="modal"
-          options={{ presentation: "modal", title: "Modal" }}
-        />
-        {/* Explore is not a  modal it is normal stack screen */}
-        <Stack.Screen
-          name="explores"
-          options={{ presentation: "card", title: "Explores" }}
-        />
-        <Stack.Screen
           name="vehicle-details"
           options={{
             title: "Vehicle Details",

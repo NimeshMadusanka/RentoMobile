@@ -44,7 +44,7 @@ const notifications: Notification[] = [
     title: "Special Offer",
     description: "Get 15% off your next rental with code SUMMER15.",
     timestamp: "3 hours ago",
-    icon: "percent",
+    icon: "pricetag",
     iconColor: "#9BA1A6",
     isUnread: false,
   },

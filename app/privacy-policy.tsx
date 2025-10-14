@@ -256,7 +256,6 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 20,
-    paddingTop: 20,
   },
   lastUpdated: {
     fontSize: 14,
