@@ -19,7 +19,7 @@ interface Booking {
   startDate: string;
   endDate: string;
   dateRange: string;
-  status: "CONFIRMED" | "COMPLETED" | "CANCELLED";
+  status: "CONFIRMED" | "COMPLETED" | "CANCELLED" | "HOME";
   image: string;
   isUpcoming: boolean;
   createdAt: string;
@@ -29,39 +29,14 @@ interface Booking {
 const mockBookings: Booking[] = [
   {
     id: "1",
-    vehicleName: "Tesla Model 3",
+    vehicleName: "You Can Book Rental on Home Tab",
     startDate: "2024-05-15T00:00:00.000Z",
     endDate: "2024-05-20T00:00:00.000Z",
-    dateRange: "May 15 - May 20",
-    status: "CONFIRMED",
-    image:
-      "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=200&fit=crop",
+    dateRange: "Any Date Range",
+    status: "HOME",
+    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400",
     isUpcoming: true,
     createdAt: "2024-05-01T00:00:00.000Z",
-  },
-  {
-    id: "2",
-    vehicleName: "BMW i4",
-    startDate: "2024-06-10T00:00:00.000Z",
-    endDate: "2024-06-15T00:00:00.000Z",
-    dateRange: "June 10 - June 15",
-    status: "CONFIRMED",
-    image:
-      "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=200&fit=crop",
-    isUpcoming: true,
-    createdAt: "2024-05-15T00:00:00.000Z",
-  },
-  {
-    id: "3",
-    vehicleName: "Audi e-tron GT",
-    startDate: "2024-04-01T00:00:00.000Z",
-    endDate: "2024-04-05T00:00:00.000Z",
-    dateRange: "April 1 - April 5",
-    status: "COMPLETED",
-    image:
-      "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=200&fit=crop",
-    isUpcoming: false,
-    createdAt: "2024-03-20T00:00:00.000Z",
   },
 ];
 
@@ -75,6 +50,8 @@ const BookingCard: React.FC<{ booking: Booking }> = ({ booking }) => {
         return "#9E9E9E";
       case "CANCELLED":
         return "#F44336";
+      case "HOME":
+        return "#9E9E9E";
       default:
         return "#9E9E9E";
     }
@@ -110,16 +87,6 @@ const BookingCard: React.FC<{ booking: Booking }> = ({ booking }) => {
           </View>
         </View>
       </View>
-      {/* <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.viewDetailsButton}>
-          <Text style={styles.viewDetailsText}>View Details</Text>
-        </TouchableOpacity>
-        {booking.isUpcoming && (
-          <TouchableOpacity style={styles.cancelButton}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </TouchableOpacity>
-        )}
-      </View> */}
     </View>
   );
 };

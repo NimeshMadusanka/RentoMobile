@@ -27,11 +27,11 @@ interface UserProfile {
 
 // Default profile data
 const defaultProfile: UserProfile = {
-  name: "Sophia Carter",
-  email: "sophia.carter@email.com",
-  phone: "+1(555)123-4567",
-  paymentMethod: "•••• •••• •••• 1234",
-  memberSince: "2021",
+  name: "",
+  email: "",
+  phone: "",
+  paymentMethod: "Cash Payment",
+  memberSince: "",
   avatar:
     "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face",
 };
@@ -212,6 +212,7 @@ const ProfileEditModal: React.FC<{
                 setFormData({ ...formData, paymentMethod: text })
               }
               placeholder="Enter payment method"
+              editable={false}
             />
           </View>
         </ScrollView>
@@ -313,14 +314,20 @@ export default function ProfileScreen() {
           <MenuItem
             icon="mail"
             title="Email"
-            subtitle={profile.email}
+            subtitle={profile.email || "Enter Your Email"}
             onPress={() => handleMenuPress("Email")}
           />
           <MenuItem
             icon="call"
             title="Phone"
-            subtitle={profile.phone}
+            subtitle={profile.phone || "Enter Your Phone Number"}
             onPress={() => handleMenuPress("Phone")}
+          />
+          <MenuItem
+            icon="cash"
+            title="Payments"
+            subtitle={profile.paymentMethod}
+            onPress={() => handleMenuPress("Payment Method")}
           />
         </View>
 
