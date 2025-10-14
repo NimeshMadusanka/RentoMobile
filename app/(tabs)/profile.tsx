@@ -286,7 +286,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -349,7 +349,7 @@ export default function ProfileScreen() {
         onClose={() => setEditModalVisible(false)}
         onSave={saveProfile}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

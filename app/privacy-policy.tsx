@@ -1,10 +1,9 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PrivacyPolicyScreen() {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -239,7 +238,7 @@ export default function PrivacyPolicyScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -252,10 +251,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
+    flexGrow: 1,
     paddingBottom: 40,
   },
   content: {
     paddingHorizontal: 20,
+    paddingTop: 20,
   },
   lastUpdated: {
     fontSize: 14,
