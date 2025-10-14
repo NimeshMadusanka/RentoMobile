@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   Alert,
@@ -277,16 +278,15 @@ export default function ProfileScreen() {
   };
 
   const handleMenuPress = (item: string) => {
-    Alert.alert("Info", `${item} feature coming soon!`);
+    if (item === "Privacy Policy") {
+      router.push("/privacy-policy");
+    } else {
+      Alert.alert("Info", `${item} feature coming soon!`);
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Change Profile</Text>
-      </View>
-
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -336,8 +336,8 @@ export default function ProfileScreen() {
           <Text style={styles.sectionTitle}>Settings</Text>
           <MenuItem
             icon="shield-checkmark"
-            title="Privacy"
-            onPress={() => handleMenuPress("Privacy")}
+            title="Privacy Policy"
+            onPress={() => handleMenuPress("Privacy Policy")}
           />
         </View>
       </ScrollView>
@@ -357,27 +357,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0",
-  },
-  backButton: {
-    padding: 8,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#2C2C2C",
-    textAlign: "center",
-  },
-  headerSpacer: {
-    width: 40,
   },
   scrollView: {
     flex: 1,
