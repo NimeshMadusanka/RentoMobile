@@ -30,6 +30,22 @@ export default function RootLayout() {
           name="explores"
           options={{ presentation: "card", title: "Explores" }}
         />
+        <Stack.Screen
+          name="vehicle-details"
+          options={{
+            title: "Vehicle Details",
+            headerStyle: {
+              backgroundColor: "#FFFFFF",
+            },
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#2C2C2C",
+            },
+            headerTintColor: "#2C2C2C",
+            headerShadowVisible: true,
+          }}
+        />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
