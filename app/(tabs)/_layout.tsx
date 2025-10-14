@@ -68,6 +68,7 @@ export default function TabLayout() {
           title: "Profile",
           headerShown: true,
           headerTitle: "Profile",
+          headerTitleAlign: "center",
           headerTitleStyle: {
             fontSize: 20,
             fontWeight: "bold",

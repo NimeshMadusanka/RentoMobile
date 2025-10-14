@@ -22,7 +22,6 @@ interface UserProfile {
   email: string;
   phone: string;
   paymentMethod: string;
-  memberSince: string;
   avatar?: string;
 }
 
@@ -32,7 +31,6 @@ const defaultProfile: UserProfile = {
   email: "",
   phone: "",
   paymentMethod: "Cash Payment",
-  memberSince: "",
   avatar:
     "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face",
 };
@@ -303,9 +301,7 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           </View>
           <Text style={styles.userName}>{profile.name}</Text>
-          <Text style={styles.memberSince}>
-            Member since {profile.memberSince}
-          </Text>
+          <Text style={styles.memberSince}>Pro Member</Text>
         </View>
 
         {/* Account Section */}
@@ -315,13 +311,13 @@ export default function ProfileScreen() {
             icon="mail"
             title="Email"
             subtitle={profile.email || "Enter Your Email"}
-            onPress={() => handleMenuPress("Email")}
+            onPress={handleEditProfile}
           />
           <MenuItem
             icon="call"
             title="Phone"
             subtitle={profile.phone || "Enter Your Phone Number"}
-            onPress={() => handleMenuPress("Phone")}
+            onPress={handleEditProfile}
           />
           <MenuItem
             icon="cash"

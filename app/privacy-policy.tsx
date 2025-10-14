@@ -16,12 +16,12 @@ export default function PrivacyPolicyScreen() {
 
           <Text style={styles.sectionTitle}>1. Introduction</Text>
           <Text style={styles.paragraph}>
-            Welcome to RentoMobile ("we," "our," or "us"). This Privacy Policy
-            explains how we collect, use, disclose, and safeguard your
-            information when you use our mobile application for vehicle rental
-            services. Please read this privacy policy carefully. If you do not
-            agree with the terms of this privacy policy, please do not access
-            the application.
+            Welcome to RentoMobile (&quot;we,&quot; &quot;our,&quot; or
+            &quot;us&quot;). This Privacy Policy explains how we collect, use,
+            disclose, and safeguard your information when you use our mobile
+            application for vehicle rental services. Please read this privacy
+            policy carefully. If you do not agree with the terms of this privacy
+            policy, please do not access the application.
           </Text>
 
           <Text style={styles.sectionTitle}>2. Information We Collect</Text>
@@ -35,7 +35,7 @@ export default function PrivacyPolicyScreen() {
             • Name, email address, and phone number
           </Text>
           <Text style={styles.bulletPoint}>
-            • Driver's license information and verification documents
+            • Driver&apos;s license information and verification documents
           </Text>
           <Text style={styles.bulletPoint}>
             • Payment information (credit card details, billing address)
@@ -192,7 +192,7 @@ export default function PrivacyPolicyScreen() {
             providing any information.
           </Text>
 
-          <Text style={styles.sectionTitle}>9. Children's Privacy</Text>
+          <Text style={styles.sectionTitle}>9. Children&apos;s Privacy</Text>
           <Text style={styles.paragraph}>
             Our services are not intended for children under 18 years of age. We
             do not knowingly collect personal information from children under
@@ -215,8 +215,9 @@ export default function PrivacyPolicyScreen() {
           <Text style={styles.paragraph}>
             We may update this privacy policy from time to time. We will notify
             you of any changes by posting the new privacy policy in the app and
-            updating the "Last updated" date. Your continued use of the app
-            after such changes constitutes acceptance of the updated policy.
+            updating the &quot;Last updated&quot; date. Your continued use of
+            the app after such changes constitutes acceptance of the updated
+            policy.
           </Text>
 
           <Text style={styles.sectionTitle}>12. Contact Us</Text>
