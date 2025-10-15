@@ -35,6 +35,7 @@ export default function RootLayout() {
             },
             headerTintColor: "#2C2C2C",
             headerShadowVisible: true,
+            presentation: "modal",
           }}
         />
         <Stack.Screen
@@ -51,6 +52,7 @@ export default function RootLayout() {
             },
             headerTintColor: "#2C2C2C",
             headerShadowVisible: true,
+            presentation: "modal",
           }}
         />
       </Stack>

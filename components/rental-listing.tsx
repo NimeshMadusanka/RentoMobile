@@ -6,6 +6,7 @@ import {
   Alert,
   FlatList,
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -726,12 +727,25 @@ export default function RentalListing() {
     }
 
     // If profile is complete, proceed with normal flow
-    router.push({
-      pathname: "/vehicle-details",
-      params: {
-        vehicleData: JSON.stringify(item),
-      },
-    });
+    // Use different navigation methods for iOS to prevent tab bar issues
+    if (Platform.OS === "ios") {
+      // Add a small delay for iOS to ensure proper navigation state
+      setTimeout(() => {
+        router.push({
+          pathname: "/vehicle-details",
+          params: {
+            vehicleData: JSON.stringify(item),
+          },
+        });
+      }, 100);
+    } else {
+      router.push({
+        pathname: "/vehicle-details",
+        params: {
+          vehicleData: JSON.stringify(item),
+        },
+      });
+    }
   };
 
   const renderRentalItem = ({ item }: { item: RentalItem }) => (

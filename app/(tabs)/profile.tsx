@@ -7,6 +7,7 @@ import {
   Alert,
   Image,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -277,7 +278,15 @@ export default function ProfileScreen() {
 
   const handleMenuPress = (item: string) => {
     if (item === "Privacy Policy") {
-      router.push("/privacy-policy");
+      // Use different navigation methods for iOS to prevent tab bar issues
+      if (Platform.OS === "ios") {
+        // Add a small delay for iOS to ensure proper navigation state
+        setTimeout(() => {
+          router.push("/privacy-policy" as any);
+        }, 100);
+      } else {
+        router.push("/privacy-policy" as any);
+      }
     } else {
       Alert.alert("Info", `${item} feature coming soon!`);
     }
