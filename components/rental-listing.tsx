@@ -1,7 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
+  Alert,
   FlatList,
   Image,
   ScrollView,
@@ -677,7 +679,53 @@ export default function RentalListing() {
     return matchesCategory && matchesSearch;
   });
 
-  const handleRentNow = (item: RentalItem) => {
+  // Function to check if profile data is complete
+  const checkProfileData = async (): Promise<boolean> => {
+    try {
+      const savedProfile = await AsyncStorage.getItem("userProfile");
+      if (!savedProfile) {
+        return false;
+      }
+
+      const profile = JSON.parse(savedProfile);
+      // Check if required fields are filled
+      return !!(
+        profile.name &&
+        profile.name.trim() &&
+        profile.email &&
+        profile.email.trim()
+      );
+    } catch (error) {
+      console.error("Error checking profile data:", error);
+      return false;
+    }
+  };
+
+  const handleRentNow = async (item: RentalItem) => {
+    const isProfileComplete = await checkProfileData();
+
+    if (!isProfileComplete) {
+      Alert.alert(
+        "Profile Required",
+        "Please complete your profile information before renting. This helps us provide better service.",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            onPress: () => {
+              // Navigate to profile tab
+              router.push("/(tabs)/profile");
+            },
+          },
+        ]
+      );
+      return;
+    }
+
+    // If profile is complete, proceed with normal flow
     router.push({
       pathname: "/vehicle-details",
       params: {
