@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "RentoMobile",
-    "slug": "RentoMobile",
+    "name": "RentoLanka",
+    "slug": "RentoLanka",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "rentomobile",
+    "scheme": "rentolanka",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.RentoMobile"
+      "bundleIdentifier": "com.rentoLanka.rentomobile"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.RentoMobile"
+      "package": "com.rentoLanka.rentomobile",
+      "versionCode": 1
     },
     "web": {
       "output": "static",
@@ -45,6 +46,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ceec2581-15fb-4a0d-8fb4-0c372cb8c060"
+      }
+    },
+    "owner": "nimesh_madusanka"
   }
 }
