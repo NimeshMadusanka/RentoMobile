@@ -16,352 +16,803 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-interface RentalItem {
+export type RentalCategory =
+  | "Bike Rental"
+  | "Car Rental"
+  | "Airport Tour"
+  | "Tour Booking"
+  | "Surf Packages"
+  | "Tour Equipment"
+  | "Wedding Car Rent";
+
+export interface RentalSpecifications {
+  /** Numeric seat count (e.g., 2, 5, 7, 14) */
+  seats?: number;
+  /** Number of helmets provided (for bikes) */
+  helmets?: number;
+  /** Fuel type label (e.g., "92 Petrol", "Diesel", "95 Octane") */
+  fuel?: string;
+  /** Transmission type */
+  transmission?: "Automatic" | "Manual";
+  /** Optional mileage text */
+  mileage?: string;
+}
+
+export interface RentalItem {
+  /** Unique identifier */
   id: string;
+
+  /** Display name of the rental/tour item */
   name: string;
-  category: string;
+
+  /** Category constrained to known values from your dataset */
+  category: RentalCategory;
+
+  /** Display price text (e.g., "Rs.2,000/Per Day", "Contact Us for price", "LKR 25,000") */
   price: string;
-  priceValue: number; // Numeric price for calculations
+
+  /**
+   * Optional numeric price for calculations (when known).
+   * Use `null` or omit when price is "Contact for price".
+   */
+  priceValue?: number | null;
+
+  /** Human-readable seats label (e.g., "2 seats", "7 seats") */
   seats?: string;
-  image: string;
-  images: string[]; // Multiple images for gallery
+
+  /** Optional location (present for Surf Packages / Tour Equipment / Wedding Car Rent) */
+  location?: string;
+
+  /** Primary image URL or require() result */
+  image: string | number;
+
+  /** Gallery image URLs */
+  images: string[];
+
+  /** Optional description text */
   description?: string;
-  specifications: {
-    seats: number;
-    fuel: string;
-    transmission: string;
-    mileage: string;
-  };
+
+  /** Technical specs (varies by category) */
+  specifications?: RentalSpecifications;
 }
 
 const categories = [
-  "Car Rental",
   "Bike Rental",
-  "Wedding Cars",
-  "Camera Equipment",
+  "Car Rental",
+  "Airport Tour",
+  "Tour Booking",
+  "Surf Packages",
   "Tour Equipment",
-  "Surf Package",
-  "Tour Packages",
 ];
 
-// Helper function to add missing properties to rental items
-const addMissingProperties = (item: any): RentalItem => {
-  const getSpecifications = (category: string, seats: string) => {
-    switch (category) {
-      case "Bike Rental":
-        return {
-          seats: parseInt(seats?.split(" ")[0]) || 1,
-          fuel: "Human Power",
-          transmission: "Multi-speed",
-          mileage: "N/A",
-        };
-      case "Camera Equipment":
-        return {
-          seats: 1,
-          fuel: "Battery",
-          transmission: "Manual",
-          mileage: "N/A",
-        };
-      case "Tour Equipment":
-        return {
-          seats: parseInt(seats?.split(" ")[0]) || 1,
-          fuel: "N/A",
-          transmission: "Manual",
-          mileage: "N/A",
-        };
-      case "Surf Package":
-        return {
-          seats: parseInt(seats?.split(" ")[0]) || 1,
-          fuel: "N/A",
-          transmission: "Manual",
-          mileage: "N/A",
-        };
-      case "Tour Packages":
-        return {
-          seats: parseInt(seats?.split(" ")[0]) || 1,
-          fuel: "N/A",
-          transmission: "N/A",
-          mileage: "N/A",
-        };
-      default: // Car Rental, Wedding Cars
-        return {
-          seats: parseInt(seats?.split(" ")[0]) || 4,
-          fuel: "Gasoline",
-          transmission: "Automatic",
-          mileage: "25 MPG",
-        };
-    }
-  };
-
-  return {
-    ...item,
-    priceValue: parseInt(item.price.replace("$", "").replace("/day", "")),
-    images: [item.image, item.image, item.image], // Use same image for gallery
-    description:
-      item.description || `${item.name} - Perfect for your rental needs.`,
-    specifications: getSpecifications(item.category, item.seats),
-  };
-};
-
 const rentalData: RentalItem[] = [
-  // Car Rental
+  // 🏍 Bike Rentals
   {
     id: "1",
-    name: "Toyota Camry",
-    category: "Car Rental",
-    price: "$45/day",
-    priceValue: 45,
-    seats: "4 seats",
-    image: "https://images.unsplash.com/photo-1549317336-206569e8475c?w=400",
+    name: "TVS Ntorq 135CC",
+    category: "Bike Rental",
+    price: "Rs.2,500/Per Day",
+    seats: "2 seats",
+    image: require("../assets/images/Bike List/TVS Ntorq 135CC/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1549317336-206569e8475c?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop",
+      require("../assets/images/Bike List/TVS Ntorq 135CC/1.jpg"),
+      require("../assets/images/Bike List/TVS Ntorq 135CC/2.jpg"),
+      require("../assets/images/Bike List/TVS Ntorq 135CC/3.jpg"),
     ],
-    description:
-      "Reliable and fuel-efficient sedan perfect for city driving and long trips. Comfortable interior with modern features.",
+    description: "",
     specifications: {
-      seats: 4,
-      fuel: "Gasoline",
+      seats: 2,
+      helmets: 2,
+      fuel: "92 Petrol",
       transmission: "Automatic",
-      mileage: "28 MPG",
     },
   },
   {
     id: "2",
-    name: "Honda Civic",
-    category: "Car Rental",
-    price: "$50/day",
-    priceValue: 50,
-    seats: "5 seats",
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400",
+    name: "Bajaj Pulsar 150CC",
+    category: "Bike Rental",
+    price: "Rs.2,000/Per Day",
+    seats: "2 seats",
+    image: require("../assets/images/Bike List/Bajaj Pulsar 150CC/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1549317336-206569e8475c?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop",
+      require("../assets/images/Bike List/Bajaj Pulsar 150CC/1.jpg"),
+      require("../assets/images/Bike List/Bajaj Pulsar 150CC/2.jpg"),
+      require("../assets/images/Bike List/Bajaj Pulsar 150CC/3.jpg"),
     ],
-    description:
-      "Sporty and efficient compact car with excellent handling and modern technology features.",
+    description: "",
     specifications: {
-      seats: 5,
-      fuel: "Gasoline",
-      transmission: "Automatic",
-      mileage: "32 MPG",
+      seats: 2,
+      helmets: 2,
+      fuel: "92 Petrol",
+      transmission: "Manual",
     },
   },
   {
     id: "3",
-    name: "Ford Focus",
-    category: "Car Rental",
-    price: "$55/day",
-    priceValue: 55,
-    seats: "5 seats",
-    image: "https://images.unsplash.com/photo-1549317336-206569e8475c?w=400",
+    name: "Honda Navi 109CC",
+    category: "Bike Rental",
+    price: "Rs.1,800/Per Day",
+    seats: "2 seats",
+    image: require("../assets/images/Bike List/Honda Navi 109CC/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1549317336-206569e8475c?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop",
+      require("../assets/images/Bike List/Honda Navi 109CC/1.jpg"),
+      require("../assets/images/Bike List/Honda Navi 109CC/2.jpg"),
+      require("../assets/images/Bike List/Honda Navi 109CC/3.jpg"),
     ],
-    description:
-      "Versatile hatchback with spacious interior and advanced safety features for urban and highway driving.",
+    description: "",
     specifications: {
-      seats: 5,
-      fuel: "Gasoline",
+      seats: 2,
+      helmets: 2,
+      fuel: "92 Petrol",
       transmission: "Manual",
-      mileage: "30 MPG",
     },
   },
   {
     id: "4",
-    name: "BMW 3 Series",
-    category: "Car Rental",
-    price: "$80/day",
-    priceValue: 80,
-    seats: "5 seats",
-    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400",
+    name: "Yamaha RayZr 160CC",
+    category: "Bike Rental",
+    price: "Rs.2,000/Per Day",
+    seats: "2 seats",
+    image: require("../assets/images/Bike List/Yamaha RayZr 160CC/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1606152421802-db97b9c7a11a?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop",
+      require("../assets/images/Bike List/Yamaha RayZr 160CC/1.jpg"),
+      require("../assets/images/Bike List/Yamaha RayZr 160CC/2.jpg"),
+      require("../assets/images/Bike List/Yamaha RayZr 160CC/3.jpg"),
     ],
-    description:
-      "Luxury sedan with premium features, excellent performance, and sophisticated design for business and leisure.",
+    description: "",
     specifications: {
-      seats: 5,
-      fuel: "Gasoline",
+      seats: 2,
+      helmets: 2,
+      fuel: "92 Petrol",
       transmission: "Automatic",
-      mileage: "26 MPG",
     },
   },
   {
     id: "5",
-    name: "Mercedes C-Class",
-    category: "Car Rental",
-    price: "$90/day",
-    priceValue: 90,
-    seats: "5 seats",
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400",
+    name: "Honda Dio 110CC",
+    category: "Bike Rental",
+    price: "Rs.2,000/Per Day",
+    seats: "2 seats",
+    image: require("../assets/images/Bike List/Honda Dio 110CC/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop",
+      require("../assets/images/Bike List/Honda Dio 110CC/1.jpg"),
+      require("../assets/images/Bike List/Honda Dio 110CC/2.jpg"),
+      require("../assets/images/Bike List/Honda Dio 110CC/3.jpg"),
     ],
-    description:
-      "Premium luxury sedan with cutting-edge technology, superior comfort, and exceptional performance.",
+    description: "",
     specifications: {
-      seats: 5,
-      fuel: "Gasoline",
+      seats: 2,
+      helmets: 2,
+      fuel: "92 Petrol",
       transmission: "Automatic",
-      mileage: "24 MPG",
     },
   },
-  {
-    id: "6",
-    name: "Audi A4",
-    category: "Car Rental",
-    price: "$85/day",
-    priceValue: 85,
-    seats: "5 seats",
-    image: "https://images.unsplash.com/photo-1606152421802-db97b9c7a11a?w=400",
-    images: [
-      "https://images.unsplash.com/photo-1606152421802-db97b9c7a11a?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop",
-    ],
-    description:
-      "Sophisticated luxury sedan with quattro all-wheel drive, premium interior, and advanced driver assistance.",
-    specifications: {
-      seats: 5,
-      fuel: "Gasoline",
-      transmission: "Automatic",
-      mileage: "25 MPG",
-    },
-  },
-  // Bike Rental
+
+  // 🚗 Car Rentals
   {
     id: "7",
-    name: "Mountain Bike",
-    category: "Bike Rental",
-    price: "$25/day",
-    priceValue: 25,
-    seats: "1 seat",
-    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400",
+    name: "Suzuki Every",
+    category: "Car Rental",
+    price: "Contact for price",
+    seats: "7 seats",
+    image: require("../assets/images/Car List/Suzuki Every/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
+      require("../assets/images/Car List/Suzuki Every/1.jpg"),
+      require("../assets/images/Car List/Suzuki Every/2.jpg"),
+      require("../assets/images/Car List/Suzuki Every/3.jpg"),
     ],
-    description:
-      "Durable mountain bike perfect for off-road adventures and trail riding.",
+    description: "",
     specifications: {
-      seats: 1,
-      fuel: "Human Power",
-      transmission: "Multi-speed",
-      mileage: "N/A",
+      seats: 7,
+      fuel: "95 Octane",
+      transmission: "Automatic",
     },
   },
   {
     id: "8",
-    name: "Road Bike",
-    category: "Bike Rental",
-    price: "$30/day",
-    priceValue: 30,
-    seats: "1 seat",
-    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400",
+    name: "Toyota Hilux",
+    category: "Car Rental",
+    price: "Contact for price",
+    seats: "5 seats",
+    image: require("../assets/images/Car List/Toyota Hilux/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
+      require("../assets/images/Car List/Toyota Hilux/1.jpg"),
+      require("../assets/images/Car List/Toyota Hilux/2.jpg"),
+      require("../assets/images/Car List/Toyota Hilux/3.jpg"),
     ],
-    description:
-      "Lightweight road bike designed for speed and efficiency on paved roads.",
+    description: "",
     specifications: {
-      seats: 1,
-      fuel: "Human Power",
-      transmission: "Multi-speed",
-      mileage: "N/A",
+      seats: 5,
+      fuel: "Diesel",
+      transmission: "Automatic",
     },
   },
   {
     id: "9",
-    name: "Electric Bike",
-    category: "Bike Rental",
-    price: "$40/day",
-    priceValue: 40,
-    seats: "1 seat",
-    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400",
+    name: "Toyota KDH",
+    category: "Car Rental",
+    price: "Contact for price",
+    seats: "14 seats",
+    image: require("../assets/images/Car List/Toyota KDH/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
+      require("../assets/images/Car List/Toyota KDH/1.jpg"),
+      require("../assets/images/Car List/Toyota KDH/2.jpg"),
+      require("../assets/images/Car List/Toyota KDH/3.jpg"),
     ],
-    description:
-      "Electric-assisted bike for effortless riding with battery-powered motor support.",
+    description: "",
     specifications: {
-      seats: 1,
-      fuel: "Electric + Human",
-      transmission: "Multi-speed",
-      mileage: "40 miles range",
+      seats: 14,
+      fuel: "Diesel",
+      transmission: "Automatic",
     },
   },
   {
     id: "10",
-    name: "City Bike",
-    category: "Bike Rental",
-    price: "$20/day",
-    priceValue: 20,
-    seats: "1 seat",
-    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400",
+    name: "Renault Kwid",
+    category: "Car Rental",
+    price: "Contact for price",
+    seats: "5 seats",
+    image: require("../assets/images/Car List/Renault Kwid/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
+      require("../assets/images/Car List/Renault Kwid/1.jpg"),
+      require("../assets/images/Car List/Renault Kwid/2.jpg"),
+      require("../assets/images/Car List/Renault Kwid/3.jpg"),
     ],
-    description:
-      "Comfortable city bike perfect for urban commuting and leisurely rides.",
+    description: "",
     specifications: {
-      seats: 1,
-      fuel: "Human Power",
-      transmission: "Single speed",
-      mileage: "N/A",
+      seats: 5,
+      fuel: "92 Octane",
+      transmission: "Manual",
     },
   },
   {
     id: "11",
-    name: "BMX Bike",
-    category: "Bike Rental",
-    price: "$15/day",
-    priceValue: 15,
-    seats: "1 seat",
-    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400",
+    name: "Honda Fit Shuttle",
+    category: "Car Rental",
+    price: "Contact for price",
+    seats: "5 seats",
+    image: require("../assets/images/Car List/Honda Fit Shuttle/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
+      require("../assets/images/Car List/Honda Fit Shuttle/1.jpg"),
+      require("../assets/images/Car List/Honda Fit Shuttle/2.jpg"),
+      require("../assets/images/Car List/Honda Fit Shuttle/3.jpg"),
     ],
-    description:
-      "Sturdy BMX bike designed for tricks, jumps, and street riding.",
+    description: "",
     specifications: {
-      seats: 1,
-      fuel: "Human Power",
-      transmission: "Single speed",
-      mileage: "N/A",
+      seats: 5,
+      fuel: "92 Octane",
+      transmission: "Automatic",
     },
   },
   {
     id: "12",
-    name: "Tandem Bike",
-    category: "Bike Rental",
-    price: "$35/day",
-    priceValue: 35,
-    seats: "2 seats",
-    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400",
+    name: "Suzuki WagonR",
+    category: "Car Rental",
+    price: "Contact for price",
+    seats: "5 seats",
+    image: require("../assets/images/Car List/Suzuki WagonR/1.jpg"),
     images: [
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
+      require("../assets/images/Car List/Suzuki WagonR/1.jpg"),
+      require("../assets/images/Car List/Suzuki WagonR/2.jpg"),
+      require("../assets/images/Car List/Suzuki WagonR/3.jpg"),
+    ],
+    description: "",
+    specifications: {
+      seats: 5,
+      fuel: "92 Octane",
+      transmission: "Automatic",
+    },
+  },
+
+  // ✈ Airport Tours
+  {
+    id: "13",
+    name: "Toyota KDH",
+    category: "Airport Tour",
+    price: "LKR 25,000",
+    seats: "7 seats",
+    image: require("../assets/images/Car List/Toyota KDH/1.jpg"),
+    images: [
+      require("../assets/images/Car List/Toyota KDH/1.jpg"),
+      require("../assets/images/Car List/Toyota KDH/2.jpg"),
+      require("../assets/images/Car List/Toyota KDH/3.jpg"),
+    ],
+    description: "From Ahangama to Colombo Airport, Sri Lanka",
+    specifications: {
+      seats: 7,
+      fuel: "95 Octane",
+      transmission: "Automatic",
+    },
+  },
+  {
+    id: "14",
+    name: "Toyota Hilux",
+    category: "Airport Tour",
+    price: "LKR 25,000",
+    seats: "5 seats",
+    image: require("../assets/images/Car List/Toyota Hilux/1.jpg"),
+    images: [
+      require("../assets/images/Car List/Toyota Hilux/1.jpg"),
+      require("../assets/images/Car List/Toyota Hilux/2.jpg"),
+      require("../assets/images/Car List/Toyota Hilux/3.jpg"),
+    ],
+    description: "From Ahangama to Colombo Airport, Sri Lanka",
+    specifications: {
+      seats: 5,
+      fuel: "Diesel",
+      transmission: "Automatic",
+    },
+  },
+  {
+    id: "15",
+    name: "Toyota KDH",
+    category: "Airport Tour",
+    price: "LKR 25,000",
+    seats: "14 seats",
+    image: require("../assets/images/Car List/Toyota KDH/1.jpg"),
+    images: [
+      require("../assets/images/Car List/Toyota KDH/1.jpg"),
+      require("../assets/images/Car List/Toyota KDH/2.jpg"),
+      require("../assets/images/Car List/Toyota KDH/3.jpg"),
+    ],
+    description: "From Ahangama to Colombo Airport, Sri Lanka",
+    specifications: {
+      seats: 14,
+      fuel: "Diesel",
+      transmission: "Automatic",
+    },
+  },
+  {
+    id: "16",
+    name: "Renault Kwid",
+    category: "Airport Tour",
+    price: "LKR 25,000",
+    seats: "5 seats",
+    image: require("../assets/images/Car List/Renault Kwid/1.jpg"),
+    images: [
+      require("../assets/images/Car List/Renault Kwid/1.jpg"),
+      require("../assets/images/Car List/Renault Kwid/2.jpg"),
+      require("../assets/images/Car List/Renault Kwid/3.jpg"),
+    ],
+    description: "From Ahangama to Colombo Airport, Sri Lanka",
+    specifications: {
+      seats: 5,
+      fuel: "92 Octane",
+      transmission: "Manual",
+    },
+  },
+  {
+    id: "17",
+    name: "Honda Fit Shuttle",
+    category: "Airport Tour",
+    price: "LKR 25,000",
+    seats: "5 seats",
+    image: require("../assets/images/Car List/Honda Fit Shuttle/1.jpg"),
+    images: [
+      require("../assets/images/Car List/Honda Fit Shuttle/1.jpg"),
+      require("../assets/images/Car List/Honda Fit Shuttle/2.jpg"),
+      require("../assets/images/Car List/Honda Fit Shuttle/3.jpg"),
+    ],
+    description: "From Ahangama to Colombo Airport, Sri Lanka",
+    specifications: {
+      seats: 5,
+      fuel: "92 Octane",
+      transmission: "Automatic",
+    },
+  },
+  {
+    id: "18",
+    name: "Suzuki WagonR",
+    category: "Airport Tour",
+    price: "LKR 25,000",
+    seats: "5 seats",
+    image: require("../assets/images/Car List/Suzuki WagonR/1.jpg"),
+    images: [
+      require("../assets/images/Car List/Suzuki WagonR/1.jpg"),
+      require("../assets/images/Car List/Suzuki WagonR/2.jpg"),
+      require("../assets/images/Car List/Suzuki WagonR/3.jpg"),
+    ],
+    description: "From Ahangama to Colombo Airport, Sri Lanka",
+    specifications: {
+      seats: 5,
+      fuel: "92 Octane",
+      transmission: "Automatic",
+    },
+  },
+
+  // Tour bookings
+  {
+    id: "19",
+    name: "Ella Sri Lanka",
+    category: "Tour Booking",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Booking List/Ella Sri Lanka/1.jpg"),
+    images: [
+      require("../assets/images/Tour Booking List/Ella Sri Lanka/1.jpg"),
+      require("../assets/images/Tour Booking List/Ella Sri Lanka/2.jpg"),
+      require("../assets/images/Tour Booking List/Ella Sri Lanka/3.jpg"),
     ],
     description:
-      "Two-person tandem bike for shared riding experiences and romantic outings.",
+      "Lush tea plantations, Nine Arches Bridge, and hiking trails like Little Adam's Peak.",
+  },
+
+  {
+    id: "20",
+    name: "Nuwara Eliya",
+    category: "Tour Booking",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Booking List/Nuwara Eliya/1.jpg"),
+    images: [
+      require("../assets/images/Tour Booking List/Nuwara Eliya/1.jpg"),
+      require("../assets/images/Tour Booking List/Nuwara Eliya/2.jpg"),
+      require("../assets/images/Tour Booking List/Nuwara Eliya/3.jpg"),
+    ],
+    description:
+      "Cool climate getaway featuring Gregory Lake, colonial buildings, and lush green hills.",
+  },
+
+  {
+    id: "21",
+    name: "Mirissa",
+    category: "Tour Booking",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Booking List/Mirissa/1.jpg"),
+    images: [
+      require("../assets/images/Tour Booking List/Mirissa/1.jpg"),
+      require("../assets/images/Tour Booking List/Mirissa/2.jpg"),
+      require("../assets/images/Tour Booking List/Mirissa/3.jpg"),
+    ],
+    description:
+      "Coastal paradise perfect for whale watching, beach relaxing, and beginner-friendly surfing waves.",
+  },
+
+  {
+    id: "22",
+    name: "Sigiriya",
+    category: "Tour Booking",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Booking List/Sigiriya/1.jpg"),
+    images: [
+      require("../assets/images/Tour Booking List/Sigiriya/1.jpg"),
+      require("../assets/images/Tour Booking List/Sigiriya/2.jpg"),
+      require("../assets/images/Tour Booking List/Sigiriya/3.jpg"),
+    ],
+    description:
+      "UNESCO World Heritage Site with ancient rock fortress, gardens, and stunning panoramic views.",
+  },
+
+  {
+    id: "23",
+    name: "Kandy",
+    category: "Tour Booking",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Booking List/Kandy/1.jpg"),
+    images: [
+      require("../assets/images/Tour Booking List/Kandy/1.jpg"),
+      require("../assets/images/Tour Booking List/Kandy/2.jpg"),
+      require("../assets/images/Tour Booking List/Kandy/3.jpg"),
+    ],
+    description:
+      "Cultural capital home to the Temple of the Tooth and beautiful botanical gardens.",
+  },
+
+  {
+    id: "24",
+    name: "Galle Fort",
+    category: "Tour Booking",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Booking List/Galle Fort/1.jpg"),
+    images: [
+      require("../assets/images/Tour Booking List/Galle Fort/1.jpg"),
+      require("../assets/images/Tour Booking List/Galle Fort/2.jpg"),
+      require("../assets/images/Tour Booking List/Galle Fort/3.jpg"),
+    ],
+    description:
+      "Historic Dutch fort with charming streets, ocean views, and trendy local cafés.",
+  },
+
+  {
+    id: "25",
+    name: "Ella Sri Lanka",
+    category: "Tour Booking",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Booking List/Ella Sri Lanka/1.jpg"),
+    images: [
+      require("../assets/images/Tour Booking List/Ella Sri Lanka/1.jpg"),
+      require("../assets/images/Tour Booking List/Ella Sri Lanka/2.jpg"),
+      require("../assets/images/Tour Booking List/Ella Sri Lanka/3.jpg"),
+    ],
+    description:
+      "Wildlife sanctuary offering jeep safaris to spot leopards, elephants, and exotic birds.",
+  },
+
+  {
+    id: "26",
+    name: "Arugam Bay",
+    category: "Tour Booking",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Booking List/Arugam Bay/1.jpg"),
+    images: [
+      require("../assets/images/Tour Booking List/Arugam Bay/1.jpg"),
+      require("../assets/images/Tour Booking List/Arugam Bay/2.jpg"),
+      require("../assets/images/Tour Booking List/Arugam Bay/3.jpg"),
+    ],
+    description:
+      "Famous surf spot with golden beaches, chill vibes, and a vibrant backpacker scene.",
+  },
+
+  {
+    id: "27",
+    name: "Anuradhapura",
+    category: "Tour Booking",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Booking List/Anuradhapura/1.jpg"),
+    images: [
+      require("../assets/images/Tour Booking List/Anuradhapura/1.jpg"),
+      require("../assets/images/Tour Booking List/Anuradhapura/2.jpg"),
+      require("../assets/images/Tour Booking List/Anuradhapura/3.jpg"),
+    ],
+    description:
+      "Ancient city filled with Buddhist stupas, sacred sites, and centuries-old archaeological wonders.",
+  },
+
+  // Surf Packages
+  {
+    id: "28",
+    name: "Single Surf Package",
+    category: "Surf Packages",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Surf Packages List/Single Surf Package/1.jpg"),
+    images: [
+      require("../assets/images/Surf Packages List/Single Surf Package/1.jpg"),
+      require("../assets/images/Surf Packages List/Single Surf Package/2.jpg"),
+      require("../assets/images/Surf Packages List/Single Surf Package/3.jpg"),
+    ],
+    description:
+      "Perfect for beginners or solo adventurers who want focused one-on-one coaching and personalized guidance to ride their first waves.",
+  },
+
+  {
+    id: "29",
+    name: "Couple Surf Package",
+    category: "Surf Packages",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Surf Packages List/Couple Surf Packages/1.jpg"),
+    images: [
+      require("../assets/images/Surf Packages List/Couple Surf Packages/1.jpg"),
+      require("../assets/images/Surf Packages List/Couple Surf Packages/2.jpg"),
+      require("../assets/images/Surf Packages List/Couple Surf Packages/3.jpg"),
+    ],
+    description:
+      "Designed for couples or friends who want to share the joy of surfing together with a professional coach by their side.",
+  },
+
+  {
+    id: "30",
+    name: "Group Surf Package (3 People)",
+    category: "Surf Packages",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Surf Packages List/Group Surf Package (3 People)/1.jpg"),
+    images: [
+      require("../assets/images/Surf Packages List/Group Surf Package (3 People)/1.jpg"),
+      require("../assets/images/Surf Packages List/Group Surf Package (3 People)/2.jpg"),
+      require("../assets/images/Surf Packages List/Group Surf Package (3 People)/3.jpg"),
+    ],
+    description:
+      "A fun and affordable group package for small teams of three, perfect for bonding while learning surfing basics and catching waves together.",
+  },
+
+  {
+    id: "31",
+    name: "Group Surf Package (6 People)",
+    category: "Surf Packages",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Surf Packages List/Group Surf Package (3 People)/1.jpg"),
+    images: [
+      require("../assets/images/Surf Packages List/Group Surf Package (3 People)/1.jpg"),
+      require("../assets/images/Surf Packages List/Group Surf Package (3 People)/2.jpg"),
+      require("../assets/images/Surf Packages List/Group Surf Package (3 People)/3.jpg"),
+    ],
+    description:
+      "Ideal for families or groups of friends — enjoy a day of surfing with multiple coaches, extended hours, and lots of memories captured on camera.",
+  },
+
+  // Tour Equipment
+  {
+    id: "32",
+    name: "Surfboard",
+    category: "Tour Equipment",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Equipment List/Surfboard/1.jpg"),
+    images: [
+      require("../assets/images/Tour Equipment List/Surfboard/1.jpg"),
+      require("../assets/images/Tour Equipment List/Surfboard/2.jpg"),
+      require("../assets/images/Tour Equipment List/Surfboard/3.jpg"),
+    ],
+    description:
+      "Lightweight fiberglass surfboard, great for beginners and pros.",
+  },
+
+  {
+    id: "33",
+    name: "Tent",
+    category: "Tour Equipment",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Equipment List/Tent/1.jpg"),
+    images: [
+      require("../assets/images/Tour Equipment List/Tent/1.jpg"),
+      require("../assets/images/Tour Equipment List/Tent/2.jpg"),
+      require("../assets/images/Tour Equipment List/Tent/3.jpg"),
+    ],
+    description: "4-person waterproof tent with easy setup.",
+  },
+
+  {
+    id: "34",
+    name: "Portable Gas Cooker",
+    category: "Tour Equipment",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Equipment List/Portable Gas Cooker/1.jpg"),
+    images: [
+      require("../assets/images/Tour Equipment List/Portable Gas Cooker/1.jpg"),
+      require("../assets/images/Tour Equipment List/Portable Gas Cooker/2.jpg"),
+      require("../assets/images/Tour Equipment List/Portable Gas Cooker/3.jpg"),
+    ],
+    description: "Compact stove perfect for outdoor cooking.",
+  },
+
+  {
+    id: "35",
+    name: "Camping Chair",
+    category: "Tour Equipment",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Equipment List/Camping Chair/1.jpg"),
+    images: [
+      require("../assets/images/Tour Equipment List/Camping Chair/1.jpg"),
+      require("../assets/images/Tour Equipment List/Camping Chair/2.jpg"),
+      require("../assets/images/Tour Equipment List/Camping Chair/3.jpg"),
+    ],
+    description: "Foldable and lightweight chair for camping.",
+  },
+
+  {
+    id: "36",
+    name: "Backpack (50L)",
+    category: "Tour Equipment",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Equipment List/BackPack (50L)/1.jpg"),
+    images: [
+      require("../assets/images/Tour Equipment List/BackPack (50L)/1.jpg"),
+      require("../assets/images/Tour Equipment List/BackPack (50L)/2.jpg"),
+      require("../assets/images/Tour Equipment List/BackPack (50L)/3.jpg"),
+    ],
+    description: "Waterproof trekking backpack with multiple compartments.",
+  },
+
+  {
+    id: "37",
+    name: "Sleeping Bag",
+    category: "Tour Equipment",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for price",
+    image: require("../assets/images/Tour Equipment List/Sleeping Bag/1.jpg"),
+    images: [
+      require("../assets/images/Tour Equipment List/Sleeping Bag/1.jpg"),
+      require("../assets/images/Tour Equipment List/Sleeping Bag/2.jpg"),
+      require("../assets/images/Tour Equipment List/Sleeping Bag/3.jpg"),
+    ],
+    description: "Warm, all-weather sleeping bag for outdoor nights.",
+  },
+
+  // 🚗 Wedding Car Rent
+  {
+    id: "38",
+    name: "Toyota Premio",
+    category: "Wedding Car Rent",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for Price",
+    seats: "5 seats",
+    image: "",
+    images: ["", "", ""],
+    description: "",
     specifications: {
-      seats: 2,
-      fuel: "Human Power",
-      transmission: "Multi-speed",
-      mileage: "N/A",
+      seats: 5,
+      fuel: "Petrol",
+      transmission: "Automatic",
+    },
+  },
+
+  {
+    id: "39",
+    name: "Mercedes-Benz S-Class",
+    category: "Wedding Car Rent",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for Price",
+    seats: "4 seats",
+    image: "",
+    images: ["", "", ""],
+    description: "",
+    specifications: {
+      seats: 4,
+      fuel: "Petrol",
+      transmission: "Automatic",
+    },
+  },
+
+  {
+    id: "40",
+    name: "BMW 7 Series",
+    category: "Wedding Car Rent",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for Price",
+    seats: "5 seats",
+    image: "",
+    images: ["", "", ""],
+    description: "",
+    specifications: {
+      seats: 5,
+      fuel: "Petrol",
+      transmission: "Automatic",
+    },
+  },
+
+  {
+    id: "41",
+    name: "Rolls-Royce Silver Shadow",
+    category: "Wedding Car Rent",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for Price",
+    seats: "4 seats",
+    image: "",
+    images: ["", "", ""],
+    description: "",
+    specifications: {
+      seats: 4,
+      fuel: "Petrol",
+      transmission: "Automatic",
+    },
+  },
+
+  {
+    id: "42",
+    name: "Range Rover Sport",
+    category: "Wedding Car Rent",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for Price",
+    seats: "5 seats",
+    image: "",
+    images: ["", "", ""],
+    description: "",
+    specifications: {
+      seats: 5,
+      fuel: "Petrol",
+      transmission: "Automatic",
+    },
+  },
+
+  {
+    id: "43",
+    name: "Toyota Land Cruiser Prado",
+    category: "Wedding Car Rent",
+    location: "Ahangama, Sri Lanka",
+    price: "Contact Us for Price",
+    seats: "7 seats",
+    image: "",
+    images: ["", "", ""],
+    description: "",
+    specifications: {
+      seats: 7,
+      fuel: "Petrol",
+      transmission: "Automatic",
     },
   },
 ];
@@ -461,7 +912,12 @@ export default function RentalListing() {
         </TouchableOpacity>
       </View>
       <View style={styles.rentalImageContainer}>
-        <Image source={{ uri: item.image }} style={styles.rentalImage} />
+        <Image
+          source={
+            typeof item.image === "string" ? { uri: item.image } : item.image
+          }
+          style={styles.rentalImage}
+        />
       </View>
     </View>
   );
